@@ -1,0 +1,9 @@
+<odoo>
+    <menuitem id="test_menu_root" name="Estate">
+        <menuitem id="estate_home_menu" name="Home" action="estate_property_action"></menuitem>
+        <menuitem id="estate_setting_menu" name="Setting" >
+            <menuitem id="estate_property_type_menu" name="Property Types" action="estate_property_type_action"></menuitem>
+            <menuitem id="estate_property_tags_menu" name="Property Tags" action="estate_property_tags_action"></menuitem>
+        </menuitem>
+    </menuitem>a
+</odoo>
