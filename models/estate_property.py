@@ -6,6 +6,11 @@ class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
 
+
+    # -------------------------------------------------------------------------
+    # FIELDS 
+    # -------------------------------------------------------------------------
+
     name = fields.Char(required=True, string="Title")
     description = fields.Text(string="Description")
     postcode = fields.Char()
@@ -37,6 +42,21 @@ class EstateProperty(models.Model):
     total_area = fields.Float(compute="_compute_total_area", string="Total Area (sqm)", readonly=True)
     best_offer_price = fields.Float(compute="_compute_best_price", string="Best Offer", readonly=True)
     
+
+    # -------------------------------------------------------------------------
+    # SQL CONSTRAINTS 
+    # -------------------------------------------------------------------------
+    
+    _check_expected_price = models.Constraint(
+        'CHECK(expected_price > 0)',
+        'Expected price must be greater than 0.'
+    )
+
+    _check_selling_price = models.Constraint(
+        'CHECK(selling_price >= 0)',
+        'Selling price cannot be negative.'
+    )
+
     # -------------------------------------------------------------------------
     # BUTTON FORM METHODS
     # -------------------------------------------------------------------------
@@ -57,7 +77,6 @@ class EstateProperty(models.Model):
     # -------------------------------------------------------------------------
     # DEPENDS METHODS
     # -------------------------------------------------------------------------
-
 
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):

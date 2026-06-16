@@ -15,6 +15,15 @@ class EstatePropertyOffer(models.Model):
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
 
 
+    # -------------------------------------------------------------------------
+    # SQL CONSTRAINTS 
+    # -------------------------------------------------------------------------
+    
+    _check_offer_price = models.Constraint(
+        'CHECK(price > 0)',
+        'Offer price must be greater than 0.'
+    )
+
 
     # -------------------------------------------------------------------------
     # BUTTON METHODS
