@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 class EstateProperty(models.Model):
     _name = "estate.property"
@@ -35,9 +36,28 @@ class EstateProperty(models.Model):
 
     total_area = fields.Float(compute="_compute_total_area", string="Total Area (sqm)", readonly=True)
     best_offer_price = fields.Float(compute="_compute_best_price", string="Best Offer", readonly=True)
+    
+    # -------------------------------------------------------------------------
+    # BUTTON FORM METHODS
+    # -------------------------------------------------------------------------
+    
+    def on_status_cancel(self):
+        for record in self:
+            if record.state == "Sold":
+                raise UserError("You cannot cancel a sold property.")
+            record.state = "Cancelled"
+
+    def on_status_sold(self):
+        for record in self:
+            if record.state == "Cancelled":
+                raise UserError("You cannot sell a cancelled property.")
+            record.state = "Sold"
+
+
     # -------------------------------------------------------------------------
     # DEPENDS METHODS
     # -------------------------------------------------------------------------
+
 
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):

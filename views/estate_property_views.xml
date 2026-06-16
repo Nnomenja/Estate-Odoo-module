@@ -33,6 +33,10 @@
     <field name="model">estate.property</field>
     <field name="arch" type="xml">
         <form string="Estate Property" style="width: 800px; margin: auto;">
+        <header>
+            <button name="on_status_sold" type="object" string="Sold" class="btn-light"/>
+            <button name="on_status_cancel" type="object" string="Cancel"/>
+        </header>
             <sheet>
 
                 <!-- Title -->
@@ -48,6 +52,7 @@
                 <!-- Main fields -->
                 <group>
                     <group>
+                        <field name="state"/>
                         <field name="property_type_id"/>
                         <field name="postcode"/>
                         <field name="date_availability"/>
@@ -71,7 +76,6 @@
                         <field name="garden_area"/>
                         <field name="garden_orientation"/>
                         <field name="total_area"/>
-                        <field name="state"/>
                     </group>
                     </page>
                      <page string="Offers">
@@ -79,8 +83,9 @@
                         <list string="Offers">
                             <field name="price"/>
                             <field name="partner_id"/>
+                            <button name="on_offer_status_accepted" type="object" icon="fa-check"/>
+                            <button name="on_offer_status_refused" type="object" icon="fa-times"/>
                             <field name="status"/>
-                            <field name="validity"/>
                             <field name="date_deadline"/>
                         </list>
                     </field>
@@ -118,4 +123,5 @@
         </search>
         </field>
     </record>
+
 </odoo>

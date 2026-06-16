@@ -14,6 +14,28 @@ class EstatePropertyOffer(models.Model):
     validity = fields.Integer(string="Validity (days)", default=7, store=True)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
 
+
+
+    # -------------------------------------------------------------------------
+    # BUTTON METHODS
+    # -------------------------------------------------------------------------
+
+
+    def on_offer_status_accepted(self):
+        for record in self:
+            record.status = "Accepted"
+            record.property_id.selling_price =  record.price
+        
+    def on_offer_status_refused(self):
+        for record in self:
+            record.status = "Refused"
+            record.property_id.selling_price = 0.0
+
+    # -------------------------------------------------------------------------
+    # DEPENDS METHODS
+    # -------------------------------------------------------------------------
+
+
     @api.depends("validity")
     def _compute_date_deadline(self):
         for record in self:
